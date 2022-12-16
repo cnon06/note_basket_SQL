@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:note_basket_2/widgets/add_note.dart';
 
 import '../models/category.dart';
 import '../models/note.dart';
@@ -33,14 +34,14 @@ class HomePageListTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Theme.of(context).primaryColor, // Colors.blue,
+      color: Theme.of(context).primaryColor, 
       child: ExpansionTile(
           textColor: Theme.of(context).hintColor,
           iconColor: Theme.of(context).hintColor,
           collapsedTextColor: Theme.of(context).cardColor,
           collapsedIconColor: Theme.of(context).cardColor,
           title: ListTile(
-              // textColor:  Theme.of(context).cardColor,
+            
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).cardColor,
                 foregroundColor: Theme.of(context).primaryColor,
@@ -69,60 +70,15 @@ class HomePageListTile extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        showModalBottomSheet(
-                            backgroundColor: const Color(0x00737373),
+                        addNote(
                             context: context,
-                            builder: (context) => Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).backgroundColor,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30),
-                                      topRight: Radius.circular(30),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                db
-                                                    .addNote(Note.add(
-                                                        categoryId:
-                                                            listCategory[index]
-                                                                .categoryId,
-                                                        noteTitle: 'noteTitle',
-                                                        noteDetail:
-                                                            'noteDetail',
-                                                        noteDate: DateTime.now()
-                                                            .toString(),
-                                                        notePriority: 2))
-                                                    .then((value) {
-                                                  setState();
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Save")),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Cancel")),
-                                        ),
-                                      ],
-                                    ), // Text("showModalBottomSheet")
-                                  ),
-                                ));
-
+                            db: db,
+                            index: index,
+                            listCategory: listCategory,
+                            setState: setState);
+                        
                         print('dd865: pressed add button');
-                        // setState();
-                        // setState();
+                     
                       },
                       icon: Icon(Icons.add)),
                   IconButton(
@@ -147,7 +103,6 @@ class HomePageListTile extends StatelessWidget {
                           listCategory: listCategory,
                           setState: setState,
                         );
-                     
                       },
                       icon: Icon(Icons.delete)),
                 ],
@@ -176,8 +131,13 @@ class HomePageListTile extends StatelessWidget {
                                           listNotes[index].noteId.toString()),
                                       trailing: IconButton(
                                           onPressed: () {
-                                            noteDeleteDialog(context: context, db: db, index: index, noteList: listNotes, setState: setState, );
-                                           
+                                            noteDeleteDialog(
+                                              context: context,
+                                              db: db,
+                                              index: index,
+                                              noteList: listNotes,
+                                              setState: setState,
+                                            );
                                           },
                                           icon: Icon(Icons.delete)),
                                     ),

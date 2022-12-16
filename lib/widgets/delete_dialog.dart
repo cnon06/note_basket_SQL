@@ -22,8 +22,8 @@ categoryDeleteDialog(
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      // db.removeNoteWithCategoryId(
-                      //     1);
+                      
+                      
 
                       db
                           .removeNoteWithCategoryId(
@@ -73,8 +73,7 @@ noteDeleteDialog(
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      // db.removeNoteWithCategoryId(
-                      //     1);
+                     
 
                       db
                           .removeNoteId(
@@ -83,13 +82,6 @@ noteDeleteDialog(
                         if (thenValue != 0)
                           print('fs454:  data has been deleted.');
                       });
-
-                      // db
-                      //     .removeCategory(listCategory[index].categoryId as int)
-                      //     .then((thenValue) {
-                      //   if (thenValue != 0)
-                      //     print('fsd16f34:  data has been deleted.');
-                      // });
 
                       setState();
                       Navigator.pop(context);
