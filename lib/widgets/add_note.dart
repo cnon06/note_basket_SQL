@@ -17,43 +17,74 @@ void addNote({required BuildContext context, required DatabaseService db, requir
                                       topRight: Radius.circular(30),
                                     ),
                                   ),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top:20.0),
+                                    child: Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                db
-                                                    .addNote(Note.add(
-                                                        categoryId:
-                                                            listCategory[index]
-                                                                .categoryId,
-                                                        noteTitle: 'noteTitle',
-                                                        noteDetail:
-                                                            'noteDetail',
-                                                        noteDate: DateTime.now()
-                                                            .toString(),
-                                                        notePriority: 2))
-                                                    .then((value) {
-                                                  setState();
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Save")),
+                                        Form(child: Column(children: [
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Title',
+                                                        border: OutlineInputBorder(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                   Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Content',
+                                                        border: OutlineInputBorder(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Cancel")),
+                                        ),
+                                        ButtonBar(
+                                          alignment: MainAxisAlignment.center,
+                                         
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    db
+                                                        .addNote(Note.add(
+                                                            categoryId:
+                                                                listCategory[index]
+                                                                    .categoryId,
+                                                            noteTitle: 'noteTitle',
+                                                            noteDetail:
+                                                                'noteDetail',
+                                                            noteDate: DateTime.now()
+                                                                .toString(),
+                                                            notePriority: 2))
+                                                        .then((value) {
+                                                      setState();
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Save")),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Cancel")),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    ), // Text("showModalBottomSheet")
+                                    ),
                                   ),
                                 ));
 }

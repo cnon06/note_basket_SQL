@@ -73,7 +73,7 @@ noteDeleteDialog(
               children: [
                 ElevatedButton(
                     onPressed: () {
-                     
+
 
                       db
                           .removeNoteId(
