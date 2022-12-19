@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var dropDownMenuController = 'One';
   late DatabaseService db;
 
   late List<Category> listCategory;
@@ -55,9 +56,7 @@ class _HomePageState extends State<HomePage> {
                     index: 0,
                     setState: () {
                       setState(() {});
-                    }
-                    
-                    );
+                    });
               },
               child: Icon(Icons.add),
             ),
@@ -71,21 +70,16 @@ class _HomePageState extends State<HomePage> {
             listCategory = snapshot.data;
 
             return ListView.builder(
-              // shrinkWrap: true,
+                // shrinkWrap: true,
                 itemCount: listCategory.length,
                 itemBuilder: (context, index) {
                   return HomePageListTile(
                       db: db,
                       listCategory: listCategory,
                       index: index,
-                      setState: (){setState(() {
-                        
-                      }); } );
-                  
-                  
-
-                  
-                  
+                      setState: () {
+                        setState(() {});
+                      });
                 });
           } else {
             return CircularProgressIndicator();

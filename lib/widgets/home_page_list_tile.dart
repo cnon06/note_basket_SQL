@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'package:note_basket_2/widgets/add_note.dart';
 
 import '../models/category.dart';
@@ -34,14 +35,13 @@ class HomePageListTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Theme.of(context).primaryColor, 
+      color: Theme.of(context).primaryColor,
       child: ExpansionTile(
           textColor: Theme.of(context).hintColor,
           iconColor: Theme.of(context).hintColor,
           collapsedTextColor: Theme.of(context).cardColor,
           collapsedIconColor: Theme.of(context).cardColor,
           title: ListTile(
-            
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).cardColor,
                 foregroundColor: Theme.of(context).primaryColor,
@@ -71,14 +71,14 @@ class HomePageListTile extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         addNote(
-                            context: context,
-                            db: db,
-                            index: index,
-                            listCategory: listCategory,
-                            setState: setState);
-                        
+                          context: context,
+                          db: db,
+                          index: index,
+                          listCategory: listCategory,
+                          setState: setState,
+                        );
+
                         print('dd865: pressed add button');
-                     
                       },
                       icon: Icon(Icons.add)),
                   IconButton(
@@ -127,8 +127,11 @@ class HomePageListTile extends StatelessWidget {
                                   child: Card(
                                     color: Theme.of(context).backgroundColor,
                                     child: ListTile(
+                                      leading: CircleAvatar(child: Text(listNotes[index].notePriority.toString()),),
                                       title: Text(
-                                          listNotes[index].noteId.toString()),
+                                          listNotes[index].noteTitle.toString()),
+                                      subtitle: Text(dateFormat(listNotes[index]
+                                          .noteDate!)), // listNotes[index].noteDate.toString()),
                                       trailing: IconButton(
                                           onPressed: () {
                                             noteDeleteDialog(
@@ -154,5 +157,14 @@ class HomePageListTile extends StatelessWidget {
           ]),
     );
     ;
+  }
+
+  String dateFormat(String dTime) {
+    String ymd = DateFormat.yMMMd().format(DateTime.parse(dTime));
+    String y = DateFormat.y().format(DateTime.parse(dTime));
+    String M = DateFormat.M().format(DateTime.parse(dTime));
+    String d = DateFormat.d().format(DateTime.parse(dTime));
+     String hms = DateFormat.Hm().format(DateTime.parse(dTime));
+    return '$d-$M-$y $hms' ;
   }
 }
