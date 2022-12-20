@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:note_basket_2/widgets/add_note.dart';
+import 'package:note_basket_2/utilities/update_note.dart';
 
 import '../models/category.dart';
 import '../models/note.dart';
 import '../services/database_service.dart';
-import 'category_dialog.dart';
-import 'delete_dialog.dart';
+import '../utilities/add_note.dart';
+import '../utilities/category_dialog.dart';
+import '../utilities/delete_dialog.dart';
 
 class HomePageListTile extends StatelessWidget {
   DatabaseService db;
@@ -127,9 +128,22 @@ class HomePageListTile extends StatelessWidget {
                                   child: Card(
                                     color: Theme.of(context).backgroundColor,
                                     child: ListTile(
-                                      leading: CircleAvatar(child: Text(listNotes[index].notePriority.toString()),),
-                                      title: Text(
-                                          listNotes[index].noteTitle.toString()),
+                                      onTap: () {
+                                        updateNote(
+                                            context: context,
+                                            db: db,
+                                            index: index,
+                                            noteList: listNotes,
+                                            setState: setState);
+                                      },
+                                      leading: CircleAvatar(
+                                        child: Text(listNotes[index]
+                                            .notePriority
+                                            .toString()),
+                                      ),
+                                      title: Text(listNotes[index]
+                                          .noteTitle
+                                          .toString()),
                                       subtitle: Text(dateFormat(listNotes[index]
                                           .noteDate!)), // listNotes[index].noteDate.toString()),
                                       trailing: IconButton(
@@ -164,7 +178,7 @@ class HomePageListTile extends StatelessWidget {
     String y = DateFormat.y().format(DateTime.parse(dTime));
     String M = DateFormat.M().format(DateTime.parse(dTime));
     String d = DateFormat.d().format(DateTime.parse(dTime));
-     String hms = DateFormat.Hm().format(DateTime.parse(dTime));
-    return '$d-$M-$y $hms' ;
+    String hms = DateFormat.Hm().format(DateTime.parse(dTime));
+    return '$d-$M-$y $hms';
   }
 }

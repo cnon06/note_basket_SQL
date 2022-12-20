@@ -1,12 +1,13 @@
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:note_basket_2/models/category.dart';
-import 'package:note_basket_2/widgets/category_dialog.dart';
+
 import 'package:note_basket_2/widgets/home_page_list_tile.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'models/note.dart';
 import 'services/database_service.dart';
+import 'utilities/category_dialog.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);

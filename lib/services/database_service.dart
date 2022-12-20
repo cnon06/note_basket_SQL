@@ -83,7 +83,7 @@ class DatabaseService {
   Future<List<Note>> getNotes(int categoryId) async {
     var db = await _initialDatabase();
 // SELECT * FROM table_name;
-var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$categoryId');
+var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$categoryId ORDER BY notTarih DESC');
     // var conclusion = await db.query("not");
 
     var note = conclusion
@@ -102,6 +102,25 @@ var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$catego
 
     return note;
   }
+
+
+ Future<int> updateNote(Note note) async {
+    var db = await _initialDatabase();
+    Map<String, dynamic> map = {};
+    // map['kategoriId'] = category.categoryId;
+    // map['kategoriBaslik'] = category.categoryTitle;
+
+    // map['kategoriID'] = note.categoryId;
+    map['notBaslik'] = note.noteTitle;
+    map['notIcerik'] = note.noteDetail;
+    map['notTarih'] = note.noteDate;
+    map['notOncelik'] = note.notePriority;
+
+    return db.update("not", map,
+        where: 'notID =? ', whereArgs: [note.noteId]);
+  }
+
+
 
   Future<int> addNote(Note note) async {
     var db = await _initialDatabase();
