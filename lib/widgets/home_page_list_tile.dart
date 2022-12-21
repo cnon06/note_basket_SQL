@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
+import 'package:note_basket_2/utilities/update_note.dart';
 
 import '../models/category.dart';
 import '../models/note.dart';
 import '../services/database_service.dart';
-import 'category_dialog.dart';
-import 'delete_dialog.dart';
+import '../utilities/add_note.dart';
+import '../utilities/category_dialog.dart';
+import '../utilities/delete_dialog.dart';
 
+// ignore: must_be_immutable
 class HomePageListTile extends StatelessWidget {
   DatabaseService db;
   List<Category> listCategory;
@@ -14,10 +17,10 @@ class HomePageListTile extends StatelessWidget {
   Function setState;
 
   HomePageListTile(
-      {required this.db,
+      {Key? key, required this.db,
       required this.listCategory,
       required this.index,
-      required this.setState}) {
+      required this.setState}) : super(key: key) {
     noteList = getNoteList();
   }
 
@@ -33,14 +36,13 @@ class HomePageListTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Theme.of(context).primaryColor, // Colors.blue,
+      color: Theme.of(context).primaryColor,
       child: ExpansionTile(
           textColor: Theme.of(context).hintColor,
           iconColor: Theme.of(context).hintColor,
           collapsedTextColor: Theme.of(context).cardColor,
           collapsedIconColor: Theme.of(context).cardColor,
           title: ListTile(
-              // textColor:  Theme.of(context).cardColor,
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).cardColor,
                 foregroundColor: Theme.of(context).primaryColor,
@@ -56,75 +58,30 @@ class HomePageListTile extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                   },
                 ),
               ),
               title: Text(
                 listCategory[index].categoryTitle.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: Wrap(
                 children: [
                   IconButton(
                       onPressed: () {
-                        showModalBottomSheet(
-                            backgroundColor: const Color(0x00737373),
-                            context: context,
-                            builder: (context) => Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).backgroundColor,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30),
-                                      topRight: Radius.circular(30),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                db
-                                                    .addNote(Note.add(
-                                                        categoryId:
-                                                            listCategory[index]
-                                                                .categoryId,
-                                                        noteTitle: 'noteTitle',
-                                                        noteDetail:
-                                                            'noteDetail',
-                                                        noteDate: DateTime.now()
-                                                            .toString(),
-                                                        notePriority: 2))
-                                                    .then((value) {
-                                                  setState();
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Save")),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Cancel")),
-                                        ),
-                                      ],
-                                    ), // Text("showModalBottomSheet")
-                                  ),
-                                ));
+                        addNote(
+                          context: context,
+                          db: db,
+                          index: index,
+                          listCategory: listCategory,
+                          setState: setState,
+                        );
 
-                        print('dd865: pressed add button');
-                        // setState();
-                        // setState();
+                        
                       },
-                      icon: Icon(Icons.add)),
+                      icon: const Icon(Icons.add)),
                   IconButton(
                       onPressed: () {
                         categoryDialog(
@@ -135,9 +92,9 @@ class HomePageListTile extends StatelessWidget {
                           index: index,
                           setState: setState,
                         );
-                        print('dd865: pressed update button');
+                       
                       },
-                      icon: Icon(Icons.update)),
+                      icon: const Icon(Icons.update)),
                   IconButton(
                       onPressed: () {
                         categoryDeleteDialog(
@@ -147,9 +104,8 @@ class HomePageListTile extends StatelessWidget {
                           listCategory: listCategory,
                           setState: setState,
                         );
-                     
                       },
-                      icon: Icon(Icons.delete)),
+                      icon: const Icon(Icons.delete)),
                 ],
               )),
           children: [
@@ -161,7 +117,7 @@ class HomePageListTile extends StatelessWidget {
                       if (snapshot.hasData) {
                         var listNotes = snapshot.data;
                         return Container(
-                          constraints: BoxConstraints(maxHeight: 300),
+                          constraints: const BoxConstraints(maxHeight: 300),
                           child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -172,27 +128,56 @@ class HomePageListTile extends StatelessWidget {
                                   child: Card(
                                     color: Theme.of(context).backgroundColor,
                                     child: ListTile(
-                                      title: Text(
-                                          listNotes[index].noteId.toString()),
+                                      onTap: () {
+                                        updateNote(
+                                            context: context,
+                                            db: db,
+                                            index: index,
+                                            noteList: listNotes,
+                                            setState: setState);
+                                      },
+                                      leading: CircleAvatar(
+                                        child: Text(listNotes[index]
+                                            .notePriority
+                                            .toString()),
+                                      ),
+                                      title: Text(listNotes[index]
+                                          .noteTitle
+                                          .toString()),
+                                      subtitle: Text(dateFormat(listNotes[index]
+                                          .noteDate!)), // listNotes[index].noteDate.toString()),
                                       trailing: IconButton(
                                           onPressed: () {
-                                            noteDeleteDialog(context: context, db: db, index: index, noteList: listNotes, setState: setState, );
-                                           
+                                            noteDeleteDialog(
+                                              context: context,
+                                              db: db,
+                                              index: index,
+                                              noteList: listNotes,
+                                              setState: setState,
+                                            );
                                           },
-                                          icon: Icon(Icons.delete)),
+                                          icon: const Icon(Icons.delete)),
                                     ),
                                   ),
                                 );
                               }),
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     }),
               ],
             ),
           ]),
     );
-    ;
+    
+  }
+
+  String dateFormat(String dTime) {
+    String y = DateFormat.y().format(DateTime.parse(dTime));
+    String M = DateFormat.M().format(DateTime.parse(dTime));
+    String d = DateFormat.d().format(DateTime.parse(dTime));
+    String hms = DateFormat.Hm().format(DateTime.parse(dTime));
+    return '$d-$M-$y $hms';
   }
 }

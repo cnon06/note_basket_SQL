@@ -1,19 +1,20 @@
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_basket_2/models/category.dart';
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 
 import '../models/note.dart';
 
 class DatabaseService {
-  static late DatabaseService _DatabaseService;
+  static late DatabaseService _databaseService;
 
   factory DatabaseService() {
-    _DatabaseService = DatabaseService._internal();
-    return _DatabaseService;
+    _databaseService = DatabaseService._internal();
+    return _databaseService;
   }
 
   DatabaseService._internal();
@@ -26,7 +27,7 @@ class DatabaseService {
     var exists = await databaseExists(path);
 
     if (!exists) {
-      print("Creating new copy from asset");
+      debugPrint("Creating new copy from asset");
 
       try {
         await Directory(dirname(path)).create(recursive: true);
@@ -83,7 +84,7 @@ class DatabaseService {
   Future<List<Note>> getNotes(int categoryId) async {
     var db = await _initialDatabase();
 // SELECT * FROM table_name;
-var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$categoryId');
+var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$categoryId ORDER BY notTarih DESC');
     // var conclusion = await db.query("not");
 
     var note = conclusion
@@ -102,6 +103,25 @@ var conclusion = await db.rawQuery('SELECT * FROM "not" WHERE kategoriID=$catego
 
     return note;
   }
+
+
+ Future<int> updateNote(Note note) async {
+    var db = await _initialDatabase();
+    Map<String, dynamic> map = {};
+    // map['kategoriId'] = category.categoryId;
+    // map['kategoriBaslik'] = category.categoryTitle;
+
+    // map['kategoriID'] = note.categoryId;
+    map['notBaslik'] = note.noteTitle;
+    map['notIcerik'] = note.noteDetail;
+    map['notTarih'] = note.noteDate;
+    map['notOncelik'] = note.notePriority;
+
+    return db.update("not", map,
+        where: 'notID =? ', whereArgs: [note.noteId]);
+  }
+
+
 
   Future<int> addNote(Note note) async {
     var db = await _initialDatabase();
