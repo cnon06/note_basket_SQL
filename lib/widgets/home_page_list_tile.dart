@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:note_basket_2/utilities/update_note.dart';
 
@@ -10,6 +9,7 @@ import '../utilities/add_note.dart';
 import '../utilities/category_dialog.dart';
 import '../utilities/delete_dialog.dart';
 
+// ignore: must_be_immutable
 class HomePageListTile extends StatelessWidget {
   DatabaseService db;
   List<Category> listCategory;
@@ -17,10 +17,10 @@ class HomePageListTile extends StatelessWidget {
   Function setState;
 
   HomePageListTile(
-      {required this.db,
+      {Key? key, required this.db,
       required this.listCategory,
       required this.index,
-      required this.setState}) {
+      required this.setState}) : super(key: key) {
     noteList = getNoteList();
   }
 
@@ -58,14 +58,14 @@ class HomePageListTile extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                   },
                 ),
               ),
               title: Text(
                 listCategory[index].categoryTitle.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: Wrap(
                 children: [
@@ -79,9 +79,9 @@ class HomePageListTile extends StatelessWidget {
                           setState: setState,
                         );
 
-                        print('dd865: pressed add button');
+                        
                       },
-                      icon: Icon(Icons.add)),
+                      icon: const Icon(Icons.add)),
                   IconButton(
                       onPressed: () {
                         categoryDialog(
@@ -92,9 +92,9 @@ class HomePageListTile extends StatelessWidget {
                           index: index,
                           setState: setState,
                         );
-                        print('dd865: pressed update button');
+                       
                       },
-                      icon: Icon(Icons.update)),
+                      icon: const Icon(Icons.update)),
                   IconButton(
                       onPressed: () {
                         categoryDeleteDialog(
@@ -105,7 +105,7 @@ class HomePageListTile extends StatelessWidget {
                           setState: setState,
                         );
                       },
-                      icon: Icon(Icons.delete)),
+                      icon: const Icon(Icons.delete)),
                 ],
               )),
           children: [
@@ -117,7 +117,7 @@ class HomePageListTile extends StatelessWidget {
                       if (snapshot.hasData) {
                         var listNotes = snapshot.data;
                         return Container(
-                          constraints: BoxConstraints(maxHeight: 300),
+                          constraints: const BoxConstraints(maxHeight: 300),
                           child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -156,25 +156,24 @@ class HomePageListTile extends StatelessWidget {
                                               setState: setState,
                                             );
                                           },
-                                          icon: Icon(Icons.delete)),
+                                          icon: const Icon(Icons.delete)),
                                     ),
                                   ),
                                 );
                               }),
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     }),
               ],
             ),
           ]),
     );
-    ;
+    
   }
 
   String dateFormat(String dTime) {
-    String ymd = DateFormat.yMMMd().format(DateTime.parse(dTime));
     String y = DateFormat.y().format(DateTime.parse(dTime));
     String M = DateFormat.M().format(DateTime.parse(dTime));
     String d = DateFormat.d().format(DateTime.parse(dTime));

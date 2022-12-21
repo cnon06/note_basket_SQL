@@ -9,7 +9,7 @@ class Category {
 
   @override
   String toString() {
-    // TODO: implement toString
+    
     return "categoryId: $categoryId, categoryTitle: $categoryTitle";
   }
 }

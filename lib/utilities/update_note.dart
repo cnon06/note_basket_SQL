@@ -3,7 +3,6 @@ import 'package:note_basket_2/globals/global.dart';
 
 import 'package:note_basket_2/services/database_service.dart';
 
-import '../models/category.dart';
 import '../models/note.dart';
 
 void updateNote(
@@ -28,7 +27,7 @@ void updateNote(
         return Container(
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
@@ -51,7 +50,7 @@ void updateNote(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               initialValue: noteList[index].noteTitle,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Title',
                                 border: OutlineInputBorder(),
                               ),
@@ -65,6 +64,7 @@ void updateNote(
                                 if (value!.trim().length < 3) {
                                   return 'Enter a content with 3 letters at least.';
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -72,7 +72,7 @@ void updateNote(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               initialValue: noteList[index].noteDetail,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Content',
                                 border: OutlineInputBorder(),
                               ),
@@ -89,6 +89,7 @@ void updateNote(
                                 if (value!.trim().length < 3) {
                                   return 'Enter a content with 3 letters at least.';
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -100,28 +101,28 @@ void updateNote(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Priority: "),
+                    const Text("Priority: "),
 
                     StatefulBuilder(
                         builder: (BuildContext context, StateSetter kamil) {
                       return DropdownButton<int>(
                           value: dropDownMenuController,
-                          items: [
+                          items: const [
                             DropdownMenuItem(
-                              child: Text("One"),
                               value: 1,
+                              child: Text("One"),
                             ),
                             DropdownMenuItem(
-                              child: Text("Two"),
                               value: 2,
+                              child: Text("Two"),
                             ),
                             DropdownMenuItem(
-                              child: Text("Three"),
                               value: 3,
+                              child: Text("Three"),
                             ),
                           ],
                           onChanged: (value) {
-                            print('54dd: $value');
+                           
                             dropDownMenuController = value!;
                             dropDownValue = dropDownMenuController;
                             kamil(() {});
@@ -154,7 +155,7 @@ void updateNote(
                               Navigator.pop(context);
                             }
                           },
-                          child: Text("Save")),
+                          child: const Text("Save")),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -162,7 +163,7 @@ void updateNote(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Cancel")),
+                          child: const Text("Cancel")),
                     ),
                   ],
                 ),

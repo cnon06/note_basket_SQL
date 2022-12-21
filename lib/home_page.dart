@@ -1,16 +1,13 @@
-import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:note_basket_2/models/category.dart';
 
 import 'package:note_basket_2/widgets/home_page_list_tile.dart';
-import 'package:sqflite/sqflite.dart';
 
-import 'models/note.dart';
 import 'services/database_service.dart';
 import 'utilities/category_dialog.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -59,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {});
                     });
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
           ),
         ],
@@ -83,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                       });
                 });
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         },
       ),

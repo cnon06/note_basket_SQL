@@ -20,7 +20,7 @@ class Note {
 
   @override
   String toString() {
-    // TODO: implement toString
+    
     return "noteId: $noteId, categoryId: $categoryId, noteTitle: $noteTitle, noteDetail: $noteDetail, noteDate: $noteDate, notePriority: $notePriority";
   }
 }

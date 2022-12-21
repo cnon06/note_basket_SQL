@@ -1,19 +1,20 @@
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_basket_2/models/category.dart';
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 
 import '../models/note.dart';
 
 class DatabaseService {
-  static late DatabaseService _DatabaseService;
+  static late DatabaseService _databaseService;
 
   factory DatabaseService() {
-    _DatabaseService = DatabaseService._internal();
-    return _DatabaseService;
+    _databaseService = DatabaseService._internal();
+    return _databaseService;
   }
 
   DatabaseService._internal();
@@ -26,7 +27,7 @@ class DatabaseService {
     var exists = await databaseExists(path);
 
     if (!exists) {
-      print("Creating new copy from asset");
+      debugPrint("Creating new copy from asset");
 
       try {
         await Directory(dirname(path)).create(recursive: true);

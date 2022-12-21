@@ -27,7 +27,7 @@ void addNote(
         return Container(
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
@@ -46,7 +46,7 @@ void addNote(
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Title',
                                 border: OutlineInputBorder(),
                               ),
@@ -60,13 +60,14 @@ void addNote(
                                 if (value!.trim().length < 3) {
                                   return 'Enter a content with 3 letters at least.';
                                 }
+                                return null;
                               },
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Content',
                                 border: OutlineInputBorder(),
                               ),
@@ -83,6 +84,7 @@ void addNote(
                                 if (value!.trim().length < 3) {
                                   return 'Enter a content with 3 letters at least.';
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -94,28 +96,28 @@ void addNote(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Priority: "),
+                    const Text("Priority: "),
 
                     StatefulBuilder(
                         builder: (BuildContext context, StateSetter kamil) {
                       return DropdownButton<int>(
                           value: dropDownMenuController,
-                          items: [
+                          items: const [
                             DropdownMenuItem(
-                              child: Text("One"),
                               value: 1,
+                              child: Text("One"),
                             ),
                             DropdownMenuItem(
-                              child: Text("Two"),
                               value: 2,
+                              child: Text("Two"),
                             ),
                             DropdownMenuItem(
-                              child: Text("Three"),
                               value: 3,
+                              child: Text("Three"),
                             ),
                           ],
                           onChanged: (value) {
-                            print('54dd: $value');
+                            debugPrint('54dd: $value');
                             dropDownMenuController = value!;
                             dropDownValue = dropDownMenuController;
                             kamil(() {});
@@ -149,7 +151,7 @@ void addNote(
                               Navigator.pop(context);
                             }
                           },
-                          child: Text("Save")),
+                          child: const Text("Save")),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -157,7 +159,7 @@ void addNote(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Cancel")),
+                          child: const Text("Cancel")),
                     ),
                     
                   ],

@@ -2,7 +2,6 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:note_basket_2/models/category.dart';
 
-import '../home_page.dart';
 import '../services/database_service.dart';
 
 enum Status {
@@ -37,7 +36,7 @@ Future<dynamic> categoryDialog(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: textEditingCont,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         labelText: 'Category Name',
                         border: OutlineInputBorder()),
                     onSaved: (value) {
@@ -47,9 +46,10 @@ Future<dynamic> categoryDialog(
                               .addCategory(
                                   Category.add(categoryTitle: value!.trim()))
                               .then((thenValue) {
-                            if (thenValue != 0)
-                              print(
+                            if (thenValue != 0) {
+                              debugPrint(
                                   'fsd16: data has been added to database.');
+                            }
                           });
 
                           break;
@@ -61,8 +61,9 @@ Future<dynamic> categoryDialog(
                                   categoryId: listCategory[index].categoryId,
                                   categoryTitle: value!.trim()))
                               .then((thenValue) {
-                            if (thenValue != 0)
-                              print('fsd17: data has been updated.');
+                            if (thenValue != 0) {
+                              debugPrint('fsd17: data has been updated.');
+                            }
                           });
 
                           break;
@@ -77,14 +78,15 @@ Future<dynamic> categoryDialog(
                       }
 
                       bool containsIt = false;
-                      listCategory.forEach((element) {
+                      for (var element in listCategory) {
                         if (element.categoryTitle!.toLowerCase() ==
                             value.trim().toLowerCase()) containsIt = true;
-                      });
+                      }
 
                       if (containsIt) {
                         return 'You must enter a different value than those in the Categories list.';
                       }
+                      return null;
                     },
                   ),
                 )),
@@ -98,12 +100,12 @@ Future<dynamic> categoryDialog(
 
                       setState();
                     },
-                    child: Text('OK')),
+                    child: const Text('OK')),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Cancel')),
+                    child: const Text('Cancel')),
               ],
             )
           ],

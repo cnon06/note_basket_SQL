@@ -29,26 +29,28 @@ categoryDeleteDialog(
                           .removeNoteWithCategoryId(
                               listCategory[index].categoryId as int)
                           .then((thenValue) {
-                        if (thenValue != 0)
-                          print('fs454:  data has been deleted.');
+                        if (thenValue != 0) {
+                          debugPrint('fs454:  data has been deleted.');
+                        }
                       });
 
                       db
                           .removeCategory(listCategory[index].categoryId as int)
                           .then((thenValue) {
-                        if (thenValue != 0)
-                          print('fsd16f34:  data has been deleted.');
+                        if (thenValue != 0) {
+                          debugPrint('fsd16f34:  data has been deleted.');
+                        }
                       });
 
                       setState();
                       Navigator.pop(context);
                     },
-                    child: Text('OK')),
+                    child: const Text('OK')),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Cancel')),
+                    child: const Text('Cancel')),
               ],
             )
           ],
@@ -79,19 +81,20 @@ noteDeleteDialog(
                           .removeNoteId(
                               noteList[index].noteId as int)
                           .then((thenValue) {
-                        if (thenValue != 0)
-                          print('fs454:  data has been deleted.');
+                        if (thenValue != 0) {
+                          debugPrint('fs454:  data has been deleted.');
+                        }
                       });
 
                       setState();
                       Navigator.pop(context);
                     },
-                    child: Text('OK')),
+                    child: const Text('OK')),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Cancel')),
+                    child: const Text('Cancel')),
               ],
             )
           ],
